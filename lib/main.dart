@@ -4,9 +4,21 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  var _questionIndex = 0;
+
   void answerQuestion() {
-    print('Answer 1 Chosen');
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    print(_questionIndex);
   }
 
   @override
@@ -22,7 +34,7 @@ class MyApp extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            Text(questions[0]),
+            Text(questions[_questionIndex]),
             RaisedButton(
               onPressed: answerQuestion,
               child: Text('Answer 1'),
