@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './question.dart';
+import './answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
 
-  void answerQuestion() {
+  void _answerQuestion() {
     setState(() {
       _questionIndex = _questionIndex + 1;
     });
@@ -24,9 +25,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal?'
+    final questions = [
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': ['Orange', 'Purple', 'Green', 'Blue'],
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['Dog', 'Tiger', 'Elephant', 'Giraffe']
+      },
+      {
+        'questionText': 'What\'s your favorite team?',
+        'answers': ['Clemson', 'Clemson', 'Clemson', 'Clemson']
+      }
     ];
     return MaterialApp(
       home: Scaffold(
@@ -35,22 +46,11 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: <Widget>[
-            Question(questions[_questionIndex]),
-            RaisedButton(
-              onPressed: answerQuestion,
-              child: Text('Answer 1'),
-            ),
-            RaisedButton(
-              onPressed: () => print('Answer 2 chosen'),
-              child: (Text('Answer 2')),
-            ),
-            RaisedButton(
-              onPressed: () {
-                // ... longer body
-                print('Answer 3 chosen');
-              },
-              child: Text('Answer 3'),
-            ),
+            Question(questions[_questionIndex]["questionText"]),
+            ...(questions[_questionIndex]['answers'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
           ],
         ),
       ),
